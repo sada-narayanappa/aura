@@ -124,7 +124,7 @@
     // **** VERSION NUMBER service *****
     //---- SERVICE: No Parameters: returns Version Number ------------
     //
-    if ( cmd.length() <= 0 || cmd.equals("version") ) {
+    if ( request.getParameterMap().size() <= 0 || cmd.equals("version") ) {
         out.println("VERSION 1.0");
         return;
     }
