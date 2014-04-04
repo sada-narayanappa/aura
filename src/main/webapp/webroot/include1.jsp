@@ -126,6 +126,9 @@
     //
     if ( request.getParameterMap().size() <= 0 || cmd.equals("version") ) {
         out.println("VERSION 1.0");
+        out.println("\n\n\n<BR/><BR><HR/><pre>"+
+        "see <a href=readme.html>readme.html<a> for more info"
+        );
         return;
     }
 
