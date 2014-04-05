@@ -140,6 +140,7 @@
         out.println( "Query String: " + qu + " <br/>");
         out.println(request.getRequestURL() + " <br/>");
 
+        out.println(application.getRealPath("/"));
         dumpRequest(out, request);
         return;
     }

@@ -6,7 +6,20 @@
     private static String [] ids = {
             "id", "ver", "lat", "lon", "alt", "direction", "time", "htype",
     };
-    TextFile csv = new TextFile("HEALTH.csv", ids);
+    TextFile csv = null;
+    String   contextPath = "";
+
+    public void jspInit() {
+        if (csv != null )
+            return;
+
+        ServletConfig config = getServletConfig();
+
+        contextPath = config.getServletContext().getRealPath("/data");
+        csv = new TextFile(contextPath + "/HEALTH.csv", ids);
+
+    }
+
 %>
 <%
     String apiKey = ((String) getParam("api_key", request, "")).toLowerCase();

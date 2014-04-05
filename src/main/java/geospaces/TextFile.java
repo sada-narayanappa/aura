@@ -20,7 +20,7 @@ public class TextFile{
    static long   MAX_FILE_SIZE = 1024 * 1024 * 10; // 10 Meg
 
    protected String[]            ids;
-   protected String              fileLocation  = "/tmp/HEALTH1/";
+   protected String              fileLocation  = "/tmp/SCH/";
    protected String              fileName;
    protected FileOutputStream    ostream = null;
    protected long                remainingBytes = MAX_FILE_SIZE;
@@ -40,6 +40,9 @@ public class TextFile{
       f = new File(fileName);
       if ( f.getParent() != null ) {
          File dir = new File(f.getParent());
+         dir.mkdirs();
+      } else { // Always call makedirs to make sure we create this directory
+         File dir = new File(fileLocation);
          dir.mkdirs();
       }
       remainingBytes = MAX_FILE_SIZE - f.length();

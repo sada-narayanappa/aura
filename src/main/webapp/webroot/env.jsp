@@ -6,7 +6,19 @@
             "id", "ver", "lat", "lon", "alt", "direction", "time", "temperature",
             "humidity", "smoke"
     };
-    TextFile csv = new TextFile("ENV.csv", ids);
+    TextFile csv = null;
+    String   contextPath = "";
+
+    public void jspInit() {
+        if (csv != null )
+            return;
+
+        ServletConfig config = getServletConfig();
+
+        contextPath = config.getServletContext().getRealPath("/data");
+        csv = new TextFile(contextPath + "/env.csv", ids);
+
+    }
 %>
 <%
     String apiKey = ((String) getParam("api_key", request, "")).toLowerCase();
