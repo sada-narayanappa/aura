@@ -6,8 +6,7 @@
 <%@include file="future/properties.jsp" %>
 
 <%!
-    private static long   MAX_FILE_SIZE = 1024 * 1024 * 10; // 10 Meg
-
+    static long   MAX_FILE_SIZE = 1024 * 1024 * 10; // 10 Meg
     private static String fileLocation = "/tmp/HEALTH/";
     private static String fileENV = fileLocation + "/ENV.csv";
     private static String fileHLT = fileLocation + "/HEALTH.csv";
@@ -30,6 +29,37 @@
 
     private long remainingBytesENV = MAX_FILE_SIZE;
     private long remainingBytesHLT = MAX_FILE_SIZE;
+
+    protected void checkFileSize(JspWriter out, String fileName) {
+        File file =new File(fileName);
+        if (!file.exists() || file.length() < MAX_FILE_SIZE) {
+            try {
+                out.print(fileName + " " + file.length());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        try{
+            String ret;
+            Calendar cal = Calendar.getInstance();
+            long time = cal.getTimeInMillis();
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SS");
+            fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+            String newFileName = fileName.substring(0, fileName.lastIndexOf("."));
+            newFileName += fmt.format(time);
+
+            file.renameTo(new File(newFileName));
+
+            out.print(fileName + " " + file.length());
+
+        }catch(Exception e) {
+
+        }
+    }
+
 
     private FileOutputStream openFile(String fileName, FileOutputStream ostream) {
         try{
@@ -174,6 +204,10 @@
         out.println(fileHLTHeader);
     }
     out.print(sb);
+
+    checkFileSize(out, fileENV);
+    checkFileSize(out, fileHLT);
+
 //    out.println("<br/> " + ostreamENV.)
 %>
 

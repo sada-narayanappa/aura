@@ -7,7 +7,7 @@
     <groupId>org.geospaces</groupId>
     <artifactId>aura</artifactId>
     <version>2.0</version>
-    <name>Geospaces Analytics Aura</name>
+    <name>Geospaces Web Services Aura</name>
     <description>GeoSpaces JSP web services</description>
     <packaging>war</packaging>
     

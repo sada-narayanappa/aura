@@ -9,6 +9,7 @@
 <%@ page import="javax.servlet.http.HttpServletResponse" %>
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="javax.servlet.jsp.*" %>
+<%@ page import="java.io.File" %>
 
 <%!
     boolean     debug   = false;
