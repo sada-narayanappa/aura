@@ -41,10 +41,11 @@ public class TextFile{
       if ( f.getParent() != null ) {
          File dir = new File(f.getParent());
          dir.mkdirs();
-      } else { // Always call makedirs to make sure we create this directory
-         File dir = new File(fileLocation);
-         dir.mkdirs();
       }
+      // Always call makedirs to make sure we create the default directory
+      File dir = new File(fileLocation);
+      dir.mkdirs();
+
       remainingBytes = MAX_FILE_SIZE - f.length();
 
       try {
@@ -59,6 +60,8 @@ public class TextFile{
          fileHeader += p + delimiter;
       }
    }
+
+
    public String getHeader() {
       return fileHeader;
    }

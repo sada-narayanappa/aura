@@ -1,4 +1,5 @@
 <%@ page import="geospaces.TextFile" %>
+<%@ page import="java.nio.file.Files" %>
 <%@include file="include1.jsp" %>
 <%@include file="future/properties.jsp" %>
 
@@ -14,8 +15,8 @@
             return;
 
         ServletConfig config = getServletConfig();
-
         contextPath = config.getServletContext().getRealPath("/data");
+        globalInit();
         csv = new TextFile(contextPath + "/HEALTH.csv", ids);
 
     }
@@ -32,7 +33,7 @@
     } else {
         sb.append(" : NOT LOGGED");
     }
-    out.println("<pre> " + csv.getHeader() );
+    out.println("<pre> " + csv.getHeader());
     out.print(sb);
 
 %>

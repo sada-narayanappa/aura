@@ -10,6 +10,10 @@
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="javax.servlet.jsp.*" %>
 <%@ page import="java.io.File" %>
+<%@ page import="java.nio.file.Path" %>
+<%@ page import="java.nio.file.Files" %>
+<%@ page import="java.nio.file.Paths" %>
+<%@ page import="java.io.IOException" %>
 
 <%!
     boolean     debug   = false;
@@ -37,12 +41,12 @@
     //Get Authorization
     protected final static Log LOG = LogFactory.getLog("gsws");
 
-    public void setCache(HttpServletResponse response, int d) {
+    public static void setCache(HttpServletResponse response, int d) {
         response.setHeader("Cache-Control", "public, max-age=" + d);
         response.setDateHeader("Expires", System.currentTimeMillis() + (d * 1000L));
         response.setDateHeader("Last-Modified", System.currentTimeMillis());
     }
-    public void setNoCache(HttpServletResponse response) {
+    public static void setNoCache(HttpServletResponse response) {
         response.setHeader("Expires", "0");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -60,7 +64,7 @@
         }
         return ret;
     }
-    public Object getParam(String n, HttpServletRequest r, Object def) {
+    public static Object getParam(String n, HttpServletRequest r, Object def) {
         String p = r.getParameter(n);
         if (p == null)
             return def;
@@ -88,7 +92,7 @@
         }
         return ret;
     }
-    public void dumpRequest(JspWriter pageOut, HttpServletRequest request) throws Exception {
+    public static void dumpRequest(JspWriter pageOut, HttpServletRequest request) throws Exception {
         if (null == pageOut) {
             return;
         }
@@ -107,6 +111,29 @@
         }
 
         pageOut.println(sb + "\n}" + reqUrl + "<pre>");
+    }
+
+    boolean initialized = false;
+    protected void globalInit() {
+        if ( initialized)
+            return;
+
+        //String p = application.getRealPath("/data");
+        ServletConfig config = getServletConfig();
+        String p  = config.getServletContext().getRealPath("/data");
+
+        File   f = new File(p);
+        if ( f.exists()) {
+            return;
+        }
+
+        Path source = Paths.get("/tmp/SCH");
+        Path target = Paths.get(p);
+        try {
+            Files.createSymbolicLink(target, source);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 %>
 <%
@@ -140,7 +167,15 @@
         out.println( "Query String: " + qu + " <br/>");
         out.println(request.getRequestURL() + " <br/>");
 
-        out.println(application.getRealPath("/"));
+        String jver = System.getProperty("java.version");
+        out.println("Java version: " + jver );
+        float jverf = Float.parseFloat(jver.substring(0,3));
+        if (jverf < 1.7) {
+            out.println("<br/><br/>** STOP ** Java version 1.7 " + jverf +
+            "<br/><color=red><b> You are running older version</b></color><br/><br/>"
+            );
+        }
+
         dumpRequest(out, request);
         return;
     }
