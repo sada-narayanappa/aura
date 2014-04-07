@@ -5,13 +5,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.TimeZone;
 
 public class TextFile{
@@ -59,9 +55,51 @@ public class TextFile{
       for (String p: ids) {
          fileHeader += p + delimiter;
       }
+
+
+      //Write the header
+      try {
+         String hedFileName = fileName.substring(0, fileName.lastIndexOf("."));
+         hedFileName += "_HEADER.txt";
+         File hFile = new File(hedFileName);
+         String[] lines = tail(hedFileName);
+         String lastHeader = lines.length > 0 ? lines[lines.length-1]: "";
+
+         String head = fileHeader + "\n";
+         if ( !lastHeader.startsWith(head)) {
+            FileOutputStream os = new FileOutputStream(hedFileName, true);
+            os.write(head.getBytes(), 0 , head.length());
+            os.close();
+         }
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
    }
 
+   //
+   // This will just rewind to last 1k and read all the lines from point and send it back
+   public static String[] tail( String src)  {
+      try{
+         RandomAccessFile in = new RandomAccessFile(src, "r");
+         int bytesCnt = 1024 * 2;
+         bytesCnt =  (in.length() < bytesCnt) ? (int)in.length() : (int)in.length() - bytesCnt;
+         in.seek(in.length() - bytesCnt);
 
+         byte[] bytes = new byte[bytesCnt];
+         in.readFully(bytes);
+
+         String str = new String(bytes);
+         String[] lines = str.split("\n");
+
+         in.close();
+         return lines;
+
+      } catch(Exception e) {
+         e.printStackTrace();
+      }
+      String[] ret = {};
+      return ret;
+   }
    public String getHeader() {
       return fileHeader;
    }

@@ -17,7 +17,7 @@
         ServletConfig config = getServletConfig();
         contextPath = config.getServletContext().getRealPath("/data");
         globalInit();
-        csv = new TextFile(contextPath + "/HEALTH.csv", ids);
+        csv = new TextFile(contextPath + "/HEALTH.txt", ids);
 
     }
 

@@ -17,7 +17,7 @@
 
         contextPath = config.getServletContext().getRealPath("/data");
         globalInit();
-        csv = new TextFile(contextPath + "/ENV.csv", ids);
+        csv = new TextFile(contextPath + "/ENV.txt", ids);
 
     }
 %>

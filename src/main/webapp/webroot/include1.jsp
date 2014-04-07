@@ -14,6 +14,7 @@
 <%@ page import="java.nio.file.Files" %>
 <%@ page import="java.nio.file.Paths" %>
 <%@ page import="java.io.IOException" %>
+<%@ page import="geospaces.TextFile" %>
 
 <%!
     boolean     debug   = false;
@@ -176,6 +177,12 @@
             );
         }
 
+        String[] tl = TextFile.tail("/tmp/SCH/ENV1.txt");
+        out.print("<br/> GOT " + tl.length + " lines <pre>");
+        for (String p : tl){
+            out.println(p);
+        }
+        out.print("<pre>");
         dumpRequest(out, request);
         return;
     }
