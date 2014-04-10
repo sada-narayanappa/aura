@@ -118,23 +118,6 @@
     protected void globalInit() {
         if ( initialized)
             return;
-
-        //String p = application.getRealPath("/data");
-        ServletConfig config = getServletConfig();
-        String p  = config.getServletContext().getRealPath("/data");
-
-        File   f = new File(p);
-        if ( f.exists()) {
-            return;
-        }
-
-        Path source = Paths.get("/tmp/SCH");
-        Path target = Paths.get(p);
-        try {
-            Files.createSymbolicLink(target, source);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 %>
 <%

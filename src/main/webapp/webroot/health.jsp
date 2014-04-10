@@ -14,10 +14,7 @@
         if (csv != null )
             return;
 
-        ServletConfig config = getServletConfig();
-        contextPath = config.getServletContext().getRealPath("/data");
-        globalInit();
-        csv = new TextFile(contextPath + "/HEALTH.txt", ids);
+        csv = new TextFile("HEALTH.txt", ids);
 
     }
 

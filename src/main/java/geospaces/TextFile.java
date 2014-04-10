@@ -36,11 +36,13 @@ public class TextFile{
       f = new File(fileName);
       if ( f.getParent() != null ) {
          File dir = new File(f.getParent());
-         dir.mkdirs();
+         if ( !dir.exists())
+            dir.mkdirs();
       }
       // Always call makedirs to make sure we create the default directory
       File dir = new File(fileLocation);
-      dir.mkdirs();
+      if ( !dir.exists())
+         dir.mkdirs();
 
       remainingBytes = MAX_FILE_SIZE - f.length();
 

@@ -13,10 +13,7 @@
             return;
 
         ServletConfig config = getServletConfig();
-
-        contextPath = config.getServletContext().getRealPath("/data");
-        globalInit();
-        csv = new TextFile(contextPath + "/ENV.txt", ids);
+        csv = new TextFile("ENV.txt", ids);
 
     }
 %>
