@@ -3,7 +3,7 @@
 
 <%!
     private static String [] ids = {
-            "id", "ver", "lat", "lon", "veloc", "dateRecorded","timeRecorded", "temperature","humidity", "O3","NO2", "val"
+            "id", "ver", "timeRecorded","lat", "lon", "veloc", "temperature","humidity", "O3","NO2", "val"
     };
     TextFile csv = null;
     String   contextPath = "";

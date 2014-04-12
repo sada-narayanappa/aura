@@ -5,7 +5,7 @@
 
 <%!
     private static String [] ids = {
-            "id", "ver", "lat", "lon", "veloc", "timeRecorded","dateRecorded", "htype", "val"
+            "id", "ver", "timeRecorded","lat", "lon", "veloc", "htype", "val"
     };
     TextFile csv = null;
     String   contextPath = "";
