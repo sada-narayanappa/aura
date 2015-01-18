@@ -1,6 +1,4 @@
 <%@ page import="org.apache.log4j.*" %>
-<%@ page import="org.apache.wiki.*" %>
-<%@ page import="org.apache.wiki.util.*" %>
 <%@ page import="org.apache.commons.lang.time.StopWatch" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.apache.commons.logging.Log" %>
@@ -133,17 +131,17 @@
     String cmd = (String) getParam("cmd", request, "");
     cmd=cmd.trim().toLowerCase();
 
+    boolean isGet = (request.getMethod().toLowerCase().startsWith("post"));
     // **** VERSION NUMBER service *****
     //---- SERVICE: No Parameters: returns Version Number ------------
     //
-    if ( request.getParameterMap().size() <= 0 || cmd.equals("version") ) {
+    if ( isGet && (request.getParameterMap().size() <= 0 || cmd.equals("version")) ) {
         out.println("VERSION 1.0");
         out.println("\n\n\n<BR/><BR><HR/><pre>"+
         "see <a href=http://www.geospaces.org/geodata/Wiki.jsp?page=Aura>Page on geospaces<a> for more info"
         );
         return;
     }
-
     // **** TEST service *****
     // Returns all the parameters of the service - echos back to user
     //
@@ -160,13 +158,15 @@
             );
         }
 
-        String[] tl = TextFile.tail("/tmp/SCH/ENV1.txt");
-        out.print("<br/> GOT " + tl.length + " lines <pre>");
-        for (String p : tl){
-            out.println(p);
-        }
-        out.print("<pre>");
         dumpRequest(out, request);
         return;
     }
+
+//    String[] tl = TextFile.tail("/tmp/SCH/ENV1.txt");
+//    out.print("<br/> GOT " + tl.length + " lines <pre>");
+//    for (String p : tl){
+//        out.println(p);
+//    }
+//    out.print("<pre>");
+
 %>

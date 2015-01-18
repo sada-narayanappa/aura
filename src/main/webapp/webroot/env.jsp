@@ -2,6 +2,7 @@
 <%@include file="include1.jsp" %>
 
 <%!
+    StringBuilder sb = new StringBuilder(512);
     private static String [] ids = {
       "timeRecorded", "id", "ver","lat", "lon", "veloc", "temperature",
       "humidity", "O3","NO2", "val"
@@ -20,7 +21,6 @@
 %>
 <%
     String apiKey = ((String) getParam("api_key", request, "")).toLowerCase();
-    StringBuilder sb = new StringBuilder(256);
 
     csv.getString(request, sb);
 
@@ -33,3 +33,5 @@
     out.print(sb);
 
 %>
+
+

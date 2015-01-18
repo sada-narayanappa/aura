@@ -1,7 +1,7 @@
 <%@ page import="geospaces.TextFile" %>
 <%@ page import="java.nio.file.Files" %>
 <%@include file="include1.jsp" %>
-<%@include file="future/properties.jsp" %>
+<%@include file="properties.jsp" %>
 
 <%!
     private static String [] ids = {

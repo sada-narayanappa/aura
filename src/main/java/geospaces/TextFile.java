@@ -1,6 +1,7 @@
 package geospaces;
 
 
+import org.apache.commons.io.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -16,7 +17,7 @@ public class TextFile{
    static long   MAX_FILE_SIZE = 1024 * 1024 * 10; // 10 Meg
 
    protected String[]            ids;
-   protected String              fileLocation  = "/tmp/SCH/";
+   protected String              fileLocation  = "/opt/SCHAS/data/";
    protected String              fileName;
    protected FileOutputStream    ostream = null;
    protected long                remainingBytes = MAX_FILE_SIZE;
@@ -26,6 +27,7 @@ public class TextFile{
 
 
    public TextFile(String fName, String[] params) {
+
       File f = new File(fName);
       if (f.getParent() == null) {
          fileName = fileLocation + fName;
@@ -79,7 +81,7 @@ public class TextFile{
    }
 
    //
-   // This will just rewind to last 1k and read all the lines from point and send it back
+   // This will just return last 2k bytes of a file
    public static String[] tail( String src)  {
       try{
          RandomAccessFile in = new RandomAccessFile(src, "r");
@@ -112,17 +114,7 @@ public class TextFile{
       }
 
       try{
-         String ret;
-         Calendar cal = Calendar.getInstance();
-         long time = cal.getTimeInMillis();
-         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
-         fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-         String newFileName = fileName.substring(0, fileName.lastIndexOf("."));
-         newFileName += "_" + fmt.format(time) + ".csv";
-
-         file.renameTo(new File(newFileName));
-
+         renameFile(file.getAbsolutePath(),"_");
       }catch(Exception e) {
       }
    }
@@ -143,6 +135,7 @@ public class TextFile{
    public void write(StringBuilder sb) {
       try {
          ostream.write(sb.toString().getBytes(), 0 , sb.length());
+         ostream.flush();
          remainingBytes -= sb.length();
 
          if ( remainingBytes <= 0) {
@@ -180,6 +173,15 @@ public class TextFile{
       sb.append("\n");
    }
 
+   public void getStringJSON(HttpServletRequest request, StringBuilder sb) {
+      sb.setLength(0);
+
+      sb.append("{ 'unix_time': " + getTime()+"\t,");
+      for (String p: ids ) {
+         sb.append( "'" + p + "': \"" + getParam(p, request, "") + "\"\t,");
+      }
+      sb.append("}\n");
+   }
 
    public static char getType(Object o) {
       char ret = 's';
@@ -222,4 +224,39 @@ public class TextFile{
       }
       return ret;
    }
+
+   public static String renameFile(String fileName, Object add) throws IOException{
+      File file =new File(fileName);
+      if ( !file.exists()) {
+         return "";
+      }
+      Calendar cal = Calendar.getInstance();
+      long time = cal.getTimeInMillis();
+      SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
+      fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+      int idx = fileName.lastIndexOf(".");
+      if (idx < 0 ) {
+         idx = fileName.length();
+      }
+      String newFileName = fileName.substring(0, idx);
+      String ext = fileName.substring(idx);
+      newFileName += "_" + add +fmt.format(time)  + ext;
+
+      file.renameTo(new File(newFileName));
+      return newFileName;
+   }
+
+   public static boolean deleteSecondFileIfEqual(String f1, String f2) throws IOException{
+      File file1 = new File(f1);
+      File file2 = new File(f2);
+
+      if (FileUtils.contentEquals(file1, file2)) {
+         file2.delete();
+         return true;
+      }
+      return false;
+   }
+
+
 }

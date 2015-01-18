@@ -5,6 +5,12 @@
 <web-app>
     <display-name>Geospaces Analytics</display-name>
 
+	<context-param>
+		<param-name>config-file-name</param-name>
+		<param-value>/opt/geospaces/aura.ini</param-value>
+		<description>All configuration info in that file</description>
+	</context-param>
+
 	<servlet>
     	<servlet-name>DirectoryListing</servlet-name>
     	<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
@@ -14,11 +20,12 @@
     	</init-param>
     	<load-on-startup>1</load-on-startup>
 	</servlet>
-	
+
 	<servlet-mapping>
     	<servlet-name>DirectoryListing</servlet-name>
     	<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
 
 
 </web-app>
