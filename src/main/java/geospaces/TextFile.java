@@ -8,8 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
+import java.util.*;
 
 public class TextFile{
 
@@ -55,7 +54,7 @@ public class TextFile{
       }
       ids = params;
 
-      fileHeader = "unix time" + delimiter + "yyyy/mm/dd hh:mm:ss" + delimiter;
+      fileHeader = "unix_time" + delimiter + "yyyy_MM_dd_HH_mm_ss" + delimiter;
       for (String p: ids) {
          fileHeader += p + delimiter;
       }
@@ -155,13 +154,22 @@ public class TextFile{
       String ret;
       Calendar cal = Calendar.getInstance();
       long time = cal.getTimeInMillis();
-      SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+      SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
       fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
 
       ret = time/1000 + "\t" + fmt.format(time);
       return ret;
    }
-   //
+   // returns local time and String
+   protected String[] getTimeArray() {
+      Calendar cal = Calendar.getInstance();
+      long time = cal.getTimeInMillis();
+      SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+      fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+      String[] ret = new String[]{""+time/1000 , fmt.format(time)};
+      return ret;
+   }
    //
    public void getString(HttpServletRequest request, StringBuilder sb) {
       sb.setLength(0);
@@ -175,12 +183,62 @@ public class TextFile{
 
    public void getStringJSON(HttpServletRequest request, StringBuilder sb) {
       sb.setLength(0);
-
-      sb.append("{ 'unix_time': " + getTime()+"\t,");
+      String[] ta = getTimeArray();
+      sb.append("{ \"unix_time\": " + ta[0] +", \"datetime\": \""+ ta[1] + "\"");
       for (String p: ids ) {
-         sb.append( "'" + p + "': \"" + getParam(p, request, "") + "\"\t,");
+         String val = getParam(p, request, "").toString().replaceAll("\"", "\\\\\"");
+         if ( !val.equals(""))
+            sb.append( ",\"" + p + "\": \"" + val + "\" ");
       }
       sb.append("}\n");
+   }
+
+   public static void getMap(String[] st, HashMap map) {
+      map.clear();
+      for (String s: st ) {
+         String[] kv = s.split("=");
+         if (kv.length < 2) {
+            continue;
+         }
+         map.put(kv[0], kv[1]);
+      }
+   }
+   public void getStringJSONMulti(HttpServletRequest request, StringBuilder sb) {
+      sb.setLength(0);
+      String text = ""+ getParam("text", request, "");
+      if (text.length() <= 0) {
+         getStringJSON(request, sb);
+         return;
+      }
+      text = text.replaceAll("\r\n", "\n");
+      String[] lines = text.split("\n");
+      String[] ta = getTimeArray();
+      String prefix = "\n{ \"unix_time\": " + ta[0] +", \"datetime\": \""+ ta[1] + "\"";
+
+      sb.append("[");
+      HashMap map = new HashMap();
+      for (String s: lines) {
+         s = s.trim();
+         String[] v = s.split("&");
+         getMap(v, map);
+         if ( s.startsWith("#") || s.length() <=0 || v.length <=0 || map.isEmpty()) {
+            continue;
+         }
+
+         sb.append(prefix);
+         for (String p: ids ) {
+            Object val = map.get(p);
+            if ( val != null ) {
+               val = val.toString().replaceAll("\"", "\\\\\"");
+               sb.append( ",\"" + p + "\": \"" + val + "\" ");
+            }
+         }
+         sb.append("},");
+      }
+      if ( sb.toString().endsWith(",")) {
+         sb= sb.deleteCharAt(sb.length()-1);
+      }
+      sb.append("]\n");
    }
 
    public static char getType(Object o) {
