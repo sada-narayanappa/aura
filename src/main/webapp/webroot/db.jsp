@@ -1,6 +1,6 @@
 <%@ page import="java.sql.*" %>
 <%@include file="include1.jsp" %>
-<%@include file="properties.jsp" %>
+<%@include file="dbproperties.jsp" %>
 
 <%!
     public Connection getConnection() throws Exception {

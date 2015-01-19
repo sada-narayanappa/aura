@@ -5,7 +5,8 @@
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.output.*" %>
 <%@ page import="geospaces.*" %>
-%@include file="include1.jsp" %>
+
+<%@include file="include1.jsp" %>
 
 <%!
     public void jspInit() {
@@ -14,12 +15,10 @@
 %>
 <%
     String contentType = request.getContentType();
-
     if ((contentType.indexOf("multipart/form-data") < 0)) {
         out.println("No Files sent - not a multi part message");
         return;
     }
-
     File file ;
     int maxFileSize = 5000 * 1024;
     int maxMemSize = 5000 * 1024;
@@ -35,7 +34,6 @@
 
     ServletFileUpload upload = new ServletFileUpload(factory);
     //upload.setSizeMax(maxFileSize );
-
     HashMap formFields = new HashMap();
 
     try{
@@ -82,16 +80,16 @@
                         out.println("Files were same");
                     }
                 }
-
                 out.println(count +" Uploaded Filename: " + filePath + fileName + "\n");
-                    count++;
+                count++;
             }
         }
     }catch(Exception ex) {
         System.out.println(ex);
     }
-
-    out.println("</pre>Uploaded: " + count + " files</body>");
-    out.println("</html>");
+    for ( Object k : formFields.keySet()) {
+        out.println(""+ k + ": " + formFields.get(k) );
+    }
+    out.println("</pre>Uploaded: " + count + " files</body></html>");
 %>
 

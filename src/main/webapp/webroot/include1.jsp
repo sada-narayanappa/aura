@@ -131,7 +131,7 @@
     String cmd = (String) getParam("cmd", request, "");
     cmd=cmd.trim().toLowerCase();
 
-    boolean isGet = (request.getMethod().toLowerCase().startsWith("post"));
+    boolean isGet = (request.getMethod().toLowerCase().startsWith("get"));
     // **** VERSION NUMBER service *****
     //---- SERVICE: No Parameters: returns Version Number ------------
     //
@@ -148,6 +148,7 @@
     if ( cmd.equals("test")) {
         out.println( "Query String: " + qu + " <br/>");
         out.println(request.getRequestURL() + " <br/>");
+        out.println("Method: " + request.getMethod() + " <br/>");
 
         String jver = System.getProperty("java.version");
         out.println("Java version: " + jver );
