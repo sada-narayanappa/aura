@@ -186,7 +186,12 @@ public class TextFile{
       String[] ta = getTimeArray();
       sb.append("{ \"unix_time\": " + ta[0] +", \"datetime\": \""+ ta[1] + "\"");
       for (String p: ids ) {
-         String val = getParam(p, request, "").toString().replaceAll("\"", "\\\\\"");
+         String val = getParam(p, request, "").toString();
+         if ( val.length() > 2 && val.startsWith("\"") && val.endsWith("\"")) {
+            val = val.substring(1,val.length()-1);
+         }
+         val = val.replaceAll("\"", "\\\\\"");
+
          if ( !val.equals(""))
             sb.append( ",\"" + p + "\": \"" + val + "\" ");
       }
@@ -218,6 +223,8 @@ public class TextFile{
       sb.append("[");
       HashMap map = new HashMap();
       for (String s: lines) {
+         System.out.println(" " + lines.length + " " + s);
+
          s = s.trim();
          String[] v = s.split("&");
          getMap(v, map);
@@ -227,11 +234,16 @@ public class TextFile{
 
          sb.append(prefix);
          for (String p: ids ) {
-            Object val = map.get(p);
-            if ( val != null ) {
-               val = val.toString().replaceAll("\"", "\\\\\"");
-               sb.append( ",\"" + p + "\": \"" + val + "\" ");
+            String val = (String)map.get(p);
+            if ( val == null ) {
+               continue;
             }
+            if ( val.length() > 2 && val.startsWith("\"") && val.endsWith("\"")) {
+               val = val.substring(1,val.length()-1);
+            }
+
+            val = val.toString().replaceAll("\"", "\\\\\"");
+            sb.append( ",\"" + p + "\": \"" + val + "\" ");
          }
          sb.append("},");
       }

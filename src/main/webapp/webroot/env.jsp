@@ -21,21 +21,23 @@
 %>
 <%
     String apiKey = ((String) getParam("api_key", request, "")).toLowerCase();
-
     boolean returnText = (getParam("returnType", request, "").equals("text"));
-    if (!returnText) {
+    String  text =  getParam("text", request, "").toString();
+
+    if ( !text.equals("") ) {
         csv.getStringJSONMulti(request, sb);
-        out.print(sb);
-
-        if ( apiKey.length() > 0) {
-            csv.write(sb);
-        }
-        //else {
-        //    sb.append("\n// NOT LOGGED");
-        //}
-        //out.println("\n // Headers: " + csv.getHeader() );
+    } else {
+        csv.getStringJSON(request, sb);
     }
+    out.print(sb);
 
+    if ( apiKey.length() > 0) {
+        csv.write(sb);
+    }
+    //else {
+    //    sb.append("\n// NOT LOGGED");
+    //}
+    //out.println("\n // Headers: " + csv.getHeader() );
 
 %>
 
