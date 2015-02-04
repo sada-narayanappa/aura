@@ -69,7 +69,7 @@ public class TextFile{
          String lastHeader = lines.length > 0 ? lines[lines.length-1]: "";
 
          String head = fileHeader + "\n";
-         if ( !lastHeader.startsWith(head)) {
+         if ( !lastHeader.startsWith(fileHeader)) {
             FileOutputStream os = new FileOutputStream(hedFileName, true);
             os.write(head.getBytes(), 0 , head.length());
             os.close();
@@ -183,17 +183,41 @@ public class TextFile{
 
    public void getStringJSON(HttpServletRequest request, StringBuilder sb) {
       sb.setLength(0);
+      Map map = request.getParameterMap();
+      getString(map, sb);
+   }
+
+   public void getString(Map map,  StringBuilder sb) {
       String[] ta = getTimeArray();
       sb.append("{ \"unix_time\": " + ta[0] +", \"datetime\": \""+ ta[1] + "\"");
+
       for (String p: ids ) {
-         String val = getParam(p, request, "").toString();
+         String val = (String)map.get(p);
+         if ( val == null) {
+            continue;
+         }
          if ( val.length() > 2 && val.startsWith("\"") && val.endsWith("\"")) {
             val = val.substring(1,val.length()-1);
          }
          val = val.replaceAll("\"", "\\\\\"");
 
+         p = p.trim();
          if ( !val.equals(""))
             sb.append( ",\"" + p + "\": \"" + val + "\" ");
+         map.remove(p);
+      }
+      for (Object k : map.keySet()) {
+         String val = (String)map.get(k);
+         if ( val == null ) {
+            continue;
+         }
+         if ( val.length() > 2 && val.startsWith("\"") && val.endsWith("\"")) {
+            val = val.substring(1,val.length()-1);
+         }
+
+         val = val.toString().replaceAll("\"", "\\\\\"");
+         k = (""+k).trim();
+         sb.append(",\"" + k + "\": \"" + val + "\" ");
       }
       sb.append("}\n");
    }
@@ -217,40 +241,23 @@ public class TextFile{
       }
       text = text.replaceAll("\r\n", "\n");
       String[] lines = text.split("\n");
-      String[] ta = getTimeArray();
-      String prefix = "\n{ \"unix_time\": " + ta[0] +", \"datetime\": \""+ ta[1] + "\"";
 
-      sb.append("[");
+      //sb.append("[");
       HashMap map = new HashMap();
       for (String s: lines) {
          System.out.println(" " + lines.length + " " + s);
 
          s = s.trim();
-         String[] v = s.split("&");
+         String[] v = s.split("[&,]");
          getMap(v, map);
          if ( s.startsWith("#") || s.length() <=0 || v.length <=0 || map.isEmpty()) {
             continue;
          }
-
-         sb.append(prefix);
-         for (String p: ids ) {
-            String val = (String)map.get(p);
-            if ( val == null ) {
-               continue;
-            }
-            if ( val.length() > 2 && val.startsWith("\"") && val.endsWith("\"")) {
-               val = val.substring(1,val.length()-1);
-            }
-
-            val = val.toString().replaceAll("\"", "\\\\\"");
-            sb.append( ",\"" + p + "\": \"" + val + "\" ");
-         }
-         sb.append("},");
+         getString(map,sb);
       }
       if ( sb.toString().endsWith(",")) {
          sb= sb.deleteCharAt(sb.length()-1);
       }
-      sb.append("]\n");
    }
 
    public static char getType(Object o) {
