@@ -34,7 +34,10 @@
     StringBuilder sbn = null;
     if ( apiKey.length() > 0) {
         csv.write(sb);
-        String qry1 = getSQLHash("2", request.getParameterMap());
+        Map map = request.getParameterMap();
+        map.put("caller_ip", request.getRemoteAddr());
+
+        String qry1 = getSQLHash("2", map);
         sbn = ResultToJson(qry1);
     }
     out.print("<pre>" + sb + "<br/>" + sbn);

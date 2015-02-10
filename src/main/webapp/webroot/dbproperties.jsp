@@ -24,7 +24,7 @@
             int idx = l.indexOf("\n");
             String id  = l.substring(0, idx );
             String sql = l.substring(idx + 1);
-            SQL_HASH.put(id, sql);
+            SQL_HASH.put(id, sql.trim());
         }
         for (Object id: SQL_HASH.keySet()) {
             log(id + " : " + SQL_HASH.get(id));
@@ -45,11 +45,19 @@
 
         Pattern pat = Pattern.compile("\\$\\w*");
         Matcher m = pat.matcher(q);
+
+
+        boolean updateStmt = q.toLowerCase().trim().startsWith("update");
+
         while ( m.find()) {
             String p = m.group();
             String v = (String)map.get(p.substring(1));
-            String k = (v==null) ? "null": "'"+v+"'";
-            nq = nq.replace(p, k);
+            if ( updateStmt ) {
+                nq = nq.replace(p, p.substring(1));
+            } else {
+                String k = (v == null) ? "null" : "'" + v + "'";
+                nq = nq.replace(p, k);
+            }
         }
         //log(nq);
         return nq;
