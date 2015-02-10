@@ -6,6 +6,11 @@
     <display-name>Geospaces Analytics</display-name>
 
 	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.xml</param-value>
+	</context-param>
+
+	<context-param>
 		<param-name>config-file-name</param-name>
 		<param-value>/opt/geospaces/aura.ini</param-value>
 		<description>All configuration info in that file</description>

@@ -17,6 +17,13 @@
 <%!
     boolean     debug   = false;
 
+    public static void log(Object ... args) {
+        for (Object o :  args) {
+            System.err.print(o);
+        }
+        System.err.print("\n");
+    }
+
     public void debugln(JspWriter pageOut, Object ... args){
         debug(pageOut, args);
         debug(pageOut, "\n");
@@ -32,13 +39,12 @@
                 ;
             }
         }
-
     }
     //Get Cookies
     //Get Session Data
     //Get Authentication
     //Get Authorization
-    protected final static Log LOG = LogFactory.getLog("gsws");
+    protected final static Log LOG = LogFactory.getLog("aura");
 
     public static void setCache(HttpServletResponse response, int d) {
         response.setHeader("Cache-Control", "public, max-age=" + d);
@@ -108,7 +114,6 @@
             String n = (String) e.nextElement();
             sb.append( n + "=" + request.getParameter(n) + "\n");
         }
-
         pageOut.println(sb + "\n}" + reqUrl + "<pre>");
     }
 

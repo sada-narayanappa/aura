@@ -42,5 +42,9 @@
 		<appender-ref ref="CONSOLE_PLAIN"/>
 	</root>
 
+    <logger name="aura">
+        <appender-ref ref="CONSOLE"/>
+        <level value="info" />
+    </logger>
 
 </log4j:configuration>
