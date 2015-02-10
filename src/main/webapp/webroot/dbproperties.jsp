@@ -50,10 +50,13 @@
         boolean updateStmt = q.toLowerCase().trim().startsWith("update");
 
         while ( m.find()) {
-            String p = m.group();
-            String v = (String)map.get(p.substring(1));
+            String   p = m.group();
+            Object[] o = (Object[])map.get(p.substring(1));
+            String   v = (o == null || o.length <= 0 ) ? null: ""+o[0];
+
             if ( updateStmt ) {
-                nq = nq.replace(p, p.substring(1));
+                String k = ( v== null) ? p.substring(1): "'" + v + "'";
+                nq = nq.replace(p, k);
             } else {
                 String k = (v == null) ? "null" : "'" + v + "'";
                 nq = nq.replace(p, k);
