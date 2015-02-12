@@ -14,10 +14,9 @@
     public void jspInit() {
         if (csv != null )
             return;
-
         ServletConfig config = getServletConfig();
         csv = new TextFile("LOC.txt", ids);
-
+        DBInit();
     }
 %>
 <%
@@ -34,7 +33,10 @@
     StringBuilder sbn = null;
     if ( apiKey.length() > 0) {
         csv.write(sb);
-        Map map = request.getParameterMap();
+        HashMap map = new HashMap();
+        for (Object o : request.getParameterMap().keySet()) {
+            map.put(o, ((Object[])request.getParameterMap().get(o))[0]);
+        }
         map.put("caller_ip", request.getRemoteAddr());
 
         String qry1 = getSQLHash("2", map);

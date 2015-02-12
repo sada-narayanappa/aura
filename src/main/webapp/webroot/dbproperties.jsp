@@ -51,15 +51,18 @@
 
         while ( m.find()) {
             String   p = m.group();
-            Object[] o = (Object[])map.get(p.substring(1));
-            String   v = (o == null || o.length <= 0 ) ? null: ""+o[0];
+            Object   k = map.get(p.substring(1));
+            String   v = null;
+            if ( k != null) {
+                v = (k instanceof String) ? (String)k : ((String[])k)[0];
+            }
 
             if ( updateStmt ) {
-                String k = ( v== null) ? p.substring(1): "'" + v + "'";
-                nq = nq.replace(p, k);
+                String k1 = ( v== null) ? p.substring(1): "'" + v + "'";
+                nq = nq.replace(p, k1);
             } else {
-                String k = (v == null) ? "null" : "'" + v + "'";
-                nq = nq.replace(p, k);
+                String k1 = (v == null) ? "null" : "'" + v + "'";
+                nq = nq.replace(p, k1);
             }
         }
         //log(nq);
@@ -70,7 +73,7 @@
 
     // initialization code or something needs to be called before JSP page
     // starts serving the requests.
-    public void jspInit() {
+    public void DBInit() {
         LOG.info("In jspInit of dbproperties");
         if ( SQL_HASH.size() > 0 ) {
             return;
@@ -120,7 +123,7 @@
         int columnCount = meta.getColumnCount();
         StringBuilder retM = ResultMeta(rs);
 
-        StringBuilder ret = new StringBuilder("var $rs={rows:[\n");
+        StringBuilder ret = new StringBuilder("var $rs=\n{rows:[\n");
         int row = 1;
         while (rs.next()) {
             ret.append("[");

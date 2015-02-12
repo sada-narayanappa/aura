@@ -192,10 +192,11 @@ public class TextFile{
       sb.append("{ \"unix_time\": " + ta[0] +", \"datetime\": \""+ ta[1] + "\"");
 
       for (String p: ids ) {
-         String val = (String)map.get(p);
-         if ( val == null) {
+         Object o = map.get(p);
+         if ( o == null) {
             continue;
          }
+         String val = (o instanceof String)? o.toString() : ((String[])o)[0] ;
          if ( val.length() > 2 && val.startsWith("\"") && val.endsWith("\"")) {
             val = val.substring(1,val.length()-1);
          }
@@ -207,10 +208,11 @@ public class TextFile{
          map.remove(p);
       }
       for (Object k : map.keySet()) {
-         String val = (String)map.get(k);
-         if ( val == null ) {
+         Object o = map.get(k);
+         if ( o == null) {
             continue;
          }
+         String val = (o instanceof String)? o.toString() : ((String[])o)[0] ;
          if ( val.length() > 2 && val.startsWith("\"") && val.endsWith("\"")) {
             val = val.substring(1,val.length()-1);
          }

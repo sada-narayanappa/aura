@@ -1,7 +1,11 @@
 <%@include file="include1.jsp" %>
 <%@include file="dbproperties.jsp" %>
 
-
+<%!
+    public void jspInit() {
+        DBInit();
+    }
+%>
 <%
 
     cmd = (String) getParam("cmd", request, "");
@@ -11,6 +15,7 @@
         out.print( "HASH reloaded" );
         return;
     }
+    String type = (String) getParam("type", request, "");
 
     String qry = "";
     try{
@@ -30,10 +35,14 @@
                 qry = qry1;
             }
         }
-        log( " Executing: " + qnu + " "  + qry );
+        log( "Executing: " + qnu + " "  + qry );
         StringBuilder sbn = ResultToJson(qry);
 
-        out.print( sbn );
+        if ( type.equalsIgnoreCase("html")) {
+            out.println("<pre> " + " Executing: " + qnu + "\n"  + qry + "\n\n" + sbn);
+        } else {
+            out.print( sbn );
+        }
         return;
     }
     catch (Exception ex) {
