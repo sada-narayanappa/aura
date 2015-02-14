@@ -6,6 +6,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -191,22 +194,22 @@ public class TextFile{
       String[] ta = getTimeArray();
       sb.append("{ \"unix_time\": " + ta[0] +", \"datetime\": \""+ ta[1] + "\"");
 
-      for (String p: ids ) {
-         Object o = map.get(p);
-         if ( o == null) {
-            continue;
-         }
-         String val = (o instanceof String)? o.toString() : ((String[])o)[0] ;
-         if ( val.length() > 2 && val.startsWith("\"") && val.endsWith("\"")) {
-            val = val.substring(1,val.length()-1);
-         }
-         val = val.replaceAll("\"", "\\\\\"");
-
-         p = p.trim();
-         if ( !val.equals(""))
-            sb.append( ",\"" + p + "\": \"" + val + "\" ");
-         map.remove(p);
-      }
+//      for (String p: ids ) {
+//         Object o = map.get(p);
+//         if ( o == null) {
+//            continue;
+//         }
+//         String val = (o instanceof String)? o.toString() : ((String[])o)[0] ;
+//         if ( val.length() > 2 && val.startsWith("\"") && val.endsWith("\"")) {
+//            val = val.substring(1,val.length()-1);
+//         }
+//         val = val.replaceAll("\"", "\\\\\"");
+//
+//         p = p.trim();
+//         if ( !val.equals(""))
+//            sb.append( ",\"" + p + "\": \"" + val + "\" ");
+//         map.remove(p);
+//      }
       for (Object k : map.keySet()) {
          Object o = map.get(k);
          if ( o == null) {
@@ -224,17 +227,25 @@ public class TextFile{
       sb.append("}\n");
    }
 
-   public static void getMap(String[] st, HashMap map) {
+   public static void getMap(String[] st, HashMap map, HttpServletRequest request) {
       map.clear();
+      Map cap = request.getParameterMap();
+
+      for (Object o: cap.keySet() ) {
+         if ( o.toString().equals("text"))
+            continue;
+         map.put(o, ((Object[]) cap.get(o))[0]);
+      }
+      map.put("caller_ip", request.getRemoteAddr());
       for (String s: st ) {
          String[] kv = s.split("=");
          if (kv.length < 2) {
             continue;
          }
-         map.put(kv[0], kv[1]);
+         map.put(kv[0].trim(), kv[1].trim());
       }
    }
-   public void getStringJSONMulti(HttpServletRequest request, StringBuilder sb) {
+   public void getStringJSONMulti(HttpServletRequest request, StringBuilder sb, ActionListener l) {
       sb.setLength(0);
       String text = ""+ getParam("text", request, "");
       if (text.length() <= 0) {
@@ -246,16 +257,24 @@ public class TextFile{
 
       //sb.append("[");
       HashMap map = new HashMap();
+      int i = 0;
       for (String s: lines) {
-         System.out.println(" " + lines.length + " " + s);
-
+         System.out.println(" " + i++ + " " + s);
          s = s.trim();
+         if (s.length() <= 0) {
+            continue;
+         }
          String[] v = s.split("[&,]");
-         getMap(v, map);
+         getMap(v, map, request);
          if ( s.startsWith("#") || s.length() <=0 || v.length <=0 || map.isEmpty()) {
             continue;
          }
          getString(map,sb);
+
+         if ( null != l ) {
+            ActionEvent e = new ActionEvent(map, 0, "");
+            l.actionPerformed(e);
+         }
       }
       if ( sb.toString().endsWith(",")) {
          sb= sb.deleteCharAt(sb.length()-1);

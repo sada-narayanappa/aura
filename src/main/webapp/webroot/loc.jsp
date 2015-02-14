@@ -1,4 +1,5 @@
 <%@ page import="geospaces.TextFile" %>
+<%@ page import="java.awt.event.*" %>
 <%@include file="include1.jsp" %>
 <%@include file="dbproperties.jsp" %>
 
@@ -18,29 +19,51 @@
         csv = new TextFile("LOC.txt", ids);
         DBInit();
     }
+
+    public void InsertIntoDB(Map map) {
+        Object o = map.get("api_key");
+        if (  o == null) {
+            return;
+        }
+        String qry1 = getSQLHash("2", map);
+        StringBuilder sbn = ResultToJson(qry1);
+        log(qry1, sbn);
+    }
+
+    ActionListener  insertDB = new ActionListener(){
+        public void actionPerformed(ActionEvent e) {
+            Map map = (Map)e.getSource();
+            InsertIntoDB(map);
+        }
+    };
 %>
 <%
     String apiKey = ((String) getParam("api_key", request, "")).toLowerCase();
-    boolean returnText = (getParam("returnType", request, "").equals("text"));
     String  text =  getParam("text", request, "").toString();
 
+    try {
+        dumpRequest(out, request);
+    } catch(Exception e) {
+        out.print(e);
+    }
+
     if ( !text.equals("") ) {
-        csv.getStringJSONMulti(request, sb);
+        csv.getStringJSONMulti(request, sb, insertDB);
     } else {
         csv.getStringJSON(request, sb);
     }
 
     StringBuilder sbn = null;
     if ( apiKey.length() > 0) {
+        out.print("api_key: " + apiKey);
         csv.write(sb);
-        HashMap map = new HashMap();
-        for (Object o : request.getParameterMap().keySet()) {
-            map.put(o, ((Object[])request.getParameterMap().get(o))[0]);
+        if ( text.equals("") ) {
+            HashMap map = new HashMap();
+            for (Object o : request.getParameterMap().keySet()) {
+                map.put(o, ((Object[]) request.getParameterMap().get(o))[0]);
+            }
+            InsertIntoDB(map);
         }
-        map.put("caller_ip", request.getRemoteAddr());
-
-        String qry1 = getSQLHash("2", map);
-        sbn = ResultToJson(qry1);
     }
     out.print("<pre>" + sb + "<br/>" + sbn);
     //else {

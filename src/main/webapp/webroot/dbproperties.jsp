@@ -1,6 +1,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.nio.charset.*" %>
-<%@ page import="java.util.regex.*" %><%!
+<%@ page import="java.util.regex.*" %>
+<%!
     String dbuser   = "postgres";
     String dbpasswd = "postgres";
     String dbDriver = "org.postgresql.Driver";
@@ -11,7 +12,7 @@
     public void readSQLHash() {
         String text = null;
         try{
-            String fileName = "/opt/SCHAS/sql/SQL.txt";
+            String fileName = "/opt/SCHAS/data/sql/SQL.txt";
             text = new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
         } catch (Exception e) {
             LOG.error("Error: " + e);
@@ -37,27 +38,25 @@
         }
         return qry1;
     }
+
+    static Pattern pat = Pattern.compile("\\$\\w*");
     public static String getSQL(String q, Map map) {
         if ( q.indexOf("$") < 0) {
             return q;
         }
         String nq = q;
 
-        Pattern pat = Pattern.compile("\\$\\w*");
         Matcher m = pat.matcher(q);
-
-
-        boolean updateStmt = q.toLowerCase().trim().startsWith("update");
+        boolean insertStmt = q.toLowerCase().trim().startsWith("insert");
 
         while ( m.find()) {
-            String   p = m.group();
+            String p = m.group();
             Object   k = map.get(p.substring(1));
             String   v = null;
             if ( k != null) {
                 v = (k instanceof String) ? (String)k : ((String[])k)[0];
             }
-
-            if ( updateStmt ) {
+            if ( !insertStmt ) {
                 String k1 = ( v== null) ? p.substring(1): "'" + v + "'";
                 nq = nq.replace(p, k1);
             } else {
@@ -153,7 +152,7 @@
                 rs = stmt.getResultSet();
                 ret = ResultSetToJson(rs);
             } else {
-                ret = new StringBuilder(""+ stmt.getUpdateCount() + "Were affected");
+                ret = new StringBuilder(""+ stmt.getUpdateCount() + " row(s) affected");
             }
             return ret;
         }

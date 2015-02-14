@@ -114,6 +114,7 @@
             String n = (String) e.nextElement();
             sb.append( n + "=" + request.getParameter(n) + "\n");
         }
+        sb.append("\n IP : " + request.getRemoteAddr());
         pageOut.println(sb + "\n}" + reqUrl + "<pre>");
     }
 
