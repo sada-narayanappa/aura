@@ -25,7 +25,7 @@
     String  text =  getParam("text", request, "").toString();
 
     if ( !text.equals("") ) {
-        csv.getStringJSONMulti(request, sb);
+        csv.getStringJSONMulti(request, sb, null);
     } else {
         csv.getStringJSON(request, sb);
     }

@@ -7,7 +7,6 @@
     }
 %>
 <%
-
     cmd = (String) getParam("cmd", request, "");
     cmd=cmd.trim().toLowerCase();
     if ( cmd.equals("reload")) {
@@ -26,7 +25,6 @@
             out.print( "DELETE is not allowed!!" );
             return;
         }
-
         String qnu = (String) getParam("qn", request, null);
 
         if (qnu != null) {
@@ -49,6 +47,5 @@
         out.print("SQLException: "+ ex.getMessage() + " " + ex.fillInStackTrace() + " " + qry);
         LOG.error(ex);
     }
-
 %>
 

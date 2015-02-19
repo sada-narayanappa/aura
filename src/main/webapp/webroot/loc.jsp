@@ -70,7 +70,6 @@
     //    sb.append("\n// NOT LOGGED");
     //}
     //out.println("\n // Headers: " + csv.getHeader() );
-
 %>
 
 
