@@ -96,7 +96,9 @@
                 (c2.indexOf("decimal")>=0)) {
             return rs.getObject(i);
         }
-        ret = "\"" + rs.getObject(i) + "\"";
+        String str = ""+rs.getObject(i);
+        str=str.replaceAll("\"", "\\\\\"");
+        ret = "\"" + str  + "\"";
         return ret;
     }
 
