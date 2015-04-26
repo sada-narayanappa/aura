@@ -47,6 +47,8 @@
         out.print(e);
     }
 
+
+    refreshCache = true;
     if ( !text.equals("") ) {
         csv.getStringJSONMulti(request, sb, insertDB);
     } else {

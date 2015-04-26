@@ -1,12 +1,16 @@
 <%@include file="include1.jsp" %>
 <%@include file="dbproperties.jsp" %>
-
 <%!
     public void jspInit() {
         DBInit();
     }
 %>
 <%
+    if ( refreshCache ) {
+        QryCache.clear();
+        refreshCache = false;
+    }
+
     cmd = (String) getParam("cmd", request, "");
     cmd=cmd.trim().toLowerCase();
     if ( cmd.equals("reload")) {
@@ -17,9 +21,11 @@
     String type = (String) getParam("type", request, "");
 
     String qry = "";
+    String useCache = "";
     try{
         String  q1 = "SELECT * FROM test LIMIT 100";
-        qry = (String) getParam("q", request, q1);
+        qry   = (String) getParam("q", request, q1);
+        useCache = (String) getParam("c", request, null);
         String  qtemp = qry.toUpperCase();
         if (qtemp.contains("DELETE") ) {
             out.print( "DELETE is not allowed!!" );
@@ -34,7 +40,12 @@
             }
         }
         log( "Executing: " + qnu + " "  + qry );
-        StringBuilder sbn = ResultToJson(qry);
+
+        StringBuilder sbn = (StringBuilder) QryCache.get(qry);
+        if ( sbn == null || useCache != null ) {
+            sbn = ResultToJson(qry);
+            QryCache.put(qry, sbn);
+        }
 
         if ( type.equalsIgnoreCase("html")) {
             out.println("<pre> " + " Executing: " + qnu + "\n"  + qry + "\n\n" + sbn);

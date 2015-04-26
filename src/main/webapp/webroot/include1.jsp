@@ -15,7 +15,8 @@
 <%@ page import="geospaces.TextFile" %>
 
 <%!
-    boolean     debug   = false;
+    boolean     debug        = false;
+    boolean     refreshCache = false;
 
     public static void log(Object ... args) {
         for (Object o :  args) {

@@ -8,6 +8,7 @@
     String dburl    ="jdbc:postgresql://localhost:5432/SCHASDB";
 
     static HashMap SQL_HASH     = new HashMap();
+    static HashMap QryCache     = new HashMap();
 
     public void readSQLHash() {
         String text = null;
