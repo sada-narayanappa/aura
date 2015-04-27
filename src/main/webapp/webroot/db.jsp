@@ -10,12 +10,12 @@
         QryCache.clear();
         refreshCache = false;
     }
-
     cmd = (String) getParam("cmd", request, "");
     cmd=cmd.trim().toLowerCase();
     if ( cmd.equals("reload")) {
         readSQLHash();
-        out.print( "HASH reloaded" );
+        out.print("HASH reloaded");
+        log("Reloading SQL text");
         return;
     }
     String type = (String) getParam("type", request, "");
@@ -26,6 +26,9 @@
         String  q1 = "SELECT * FROM test LIMIT 100";
         qry   = (String) getParam("q", request, q1);
         useCache = (String) getParam("c", request, null);
+        if (useCache != null )  {
+            log("NOT USING CACHE");
+        }
         String  qtemp = qry.toUpperCase();
         if (qtemp.contains("DELETE") ) {
             out.print( "DELETE is not allowed!!" );

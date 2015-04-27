@@ -144,6 +144,7 @@
 
     public StringBuilder ResultToJson(String qry, Object... args){
         Connection  conn = null;
+        log("SQL:" + qry);
         try{
             StringBuilder ret = null;
             conn = getConnection();
@@ -159,8 +160,8 @@
             }
             return ret;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
+            log(ex);
             return new StringBuilder("{SQLException: " + ex.getMessage() +"}" + " " +qry);
         }
         finally{
@@ -168,7 +169,7 @@
                 try {
                     conn.close();
                 } catch(Exception e1) {
-                    ;
+                    log(e1);
                 }
             }
         }
