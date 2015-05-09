@@ -6,10 +6,6 @@
     }
 %>
 <%
-    if ( refreshCache ) {
-        QryCache.clear();
-        refreshCache = false;
-    }
     cmd = (String) getParam("cmd", request, "");
     cmd=cmd.trim().toLowerCase();
     if ( cmd.equals("reload")) {
@@ -44,10 +40,10 @@
         }
         log( "Executing: " + qnu + " "  + qry );
 
-        StringBuilder sbn = (StringBuilder) QryCache.get(qry);
+        StringBuilder sbn = (StringBuilder) GetCache().get(qry);
         if ( sbn == null || useCache != null ) {
             sbn = ResultToJson(qry);
-            QryCache.put(qry, sbn);
+            GetCache().put(qry, sbn);
         }
 
         if ( type.equalsIgnoreCase("html")) {

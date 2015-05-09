@@ -28,6 +28,8 @@
         String qry1 = getSQLHash("2", map);
         StringBuilder sbn = ResultToJson(qry1);
         log(qry1, sbn);
+        log("CLEARING Cache after insert", "now");
+        ClearCache();
     }
 
     ActionListener  insertDB = new ActionListener(){
@@ -48,7 +50,7 @@
     }
 
 
-    refreshCache = true;
+
     if ( !text.equals("") ) {
         csv.getStringJSONMulti(request, sb, insertDB);
     } else {

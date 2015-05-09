@@ -16,7 +16,26 @@
 
 <%!
     boolean     debug        = false;
-    boolean     refreshCache = false;
+
+    public void ClearCache() {
+        HashMap h = GetCache();
+        log("CLEARING Caches...", h.size(), "Size");
+        h.clear();
+    }
+    public HashMap GetCache() {
+        ServletContext application = getServletConfig().getServletContext();
+        HashMap h = (HashMap)application.getAttribute("RESULTS_CACHE");
+        if (h ==null) {
+            synchronized (application) {
+                h = (HashMap)application.getAttribute("RESULTS_CACHE");
+                if (h == null) {
+                    h    = new HashMap();
+                }
+                application.setAttribute("RESULTS_CACHE", h);
+            }
+        }
+        return h;
+    }
 
     public static void log(Object ... args) {
         for (Object o :  args) {

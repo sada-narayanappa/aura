@@ -7,10 +7,10 @@
     String dbDriver = "org.postgresql.Driver";
     String dburl    ="jdbc:postgresql://localhost:5432/SCHASDB";
 
-    static HashMap SQL_HASH     = new HashMap();
-    static HashMap QryCache     = new HashMap();
+    HashMap SQL_HASH         = new HashMap();
 
     public void readSQLHash() {
+        SQL_HASH.clear();
         String text = null;
         try{
             String fileName = "/opt/SCHAS/data/sql/SQL.txt";
@@ -32,7 +32,7 @@
             log(id + " : " + SQL_HASH.get(id));
         }
     }
-    public static String getSQLHash(String q, Map map) {
+    public String getSQLHash(String q, Map map) {
         String qry1 = (String) SQL_HASH.get(q);
         if (qry1 != null) {
             qry1 = getSQL(qry1, map);
