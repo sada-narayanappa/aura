@@ -10,7 +10,8 @@
     cmd=cmd.trim().toLowerCase();
     if ( cmd.equals("reload")) {
         readSQLHash();
-        out.print("HASH reloaded");
+        ClearCache();
+        out.print("HASH reloaded\n\n");
         log("Reloading SQL text");
         return;
     }
