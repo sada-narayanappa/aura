@@ -164,7 +164,7 @@
     if ( isGet && (request.getParameterMap().size() <= 0 || cmd.equals("version")) ) {
         out.println("VERSION 1.0");
         out.println("\n\n\n<BR/><BR><HR/><pre>"+
-        "see <a href=http://www.geospaces.org/geodata/Wiki.jsp?page=Aura>Page on geospaces<a> for more info"
+        "see <a href=/geodata/Wiki.jsp?page=Aura>Page on geospaces<a> for more info"
         );
         return;
     }

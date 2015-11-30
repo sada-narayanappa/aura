@@ -6,5 +6,5 @@
 %>
 
 To reset database use:
-<a href=http://www.geospaces.org/aura/webroot/cmd=reset" /> REST DB </a>
+<a href=/aura/webroot/cmd=reset" /> REST DB </a>
 
