@@ -9,7 +9,7 @@
     String dburl2    = "jdbc:postgresql://52.25.152.209:5432/SCHASDB?charSet=UTF-8";
     String dburl21   = "jdbc:postgresql://52.25.152.209:5432/SCHASDB";
     String dburl3    = "jdbc:postgresql://smartconnectedhealth.org:5432/SCHASDB?charSet=UTF-8";
-    String dburl     = dburl2;
+    String dburl     = dburl1;
 
     HashMap SQL_HASH         = new HashMap();
 
