@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eca3eb87-1857-4a1c-a90d-2398d51c620d" name="Default" comment="Build changes added test.jsp and README.md to help debug locally">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../src/main/webapp/webroot/WEB-INF" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aura.iml" afterPath="$PROJECT_DIR$/../aura.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/main/webapp/META-INF/context.xml" afterPath="$PROJECT_DIR$/../src/main/webapp/META-INF/context.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/main/webapp/webroot/dbproperties.jsp" afterPath="$PROJECT_DIR$/../src/main/webapp/webroot/dbproperties.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/main/webapp/webroot/include1.jsp" afterPath="$PROJECT_DIR$/../src/main/webapp/webroot/include1.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../pom.xml" afterPath="$PROJECT_DIR$/../pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="eca3eb87-1857-4a1c-a90d-2398d51c620d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SCHAS-idea.iws" />
@@ -560,7 +553,7 @@
       <option name="number" value="Default" />
       <updated>1457741145338</updated>
       <workItem from="1457741146748" duration="3149000" />
-      <workItem from="1457772692848" duration="11529000" />
+      <workItem from="1457772692848" duration="11543000" />
     </task>
     <task id="LOCAL-00001" summary="Build changes added test.jsp and README.md to help debug locally">
       <created>1457817366073</created>
@@ -568,11 +561,17 @@
       <option name="project" value="LOCAL" />
       <updated>1457817366073</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Build changes added test.jsp and README.md to help debug locally">
+      <created>1457817633459</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1457817633459</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14678000" />
+    <option name="totallyTimeSpent" value="14692000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="249" y="23" width="1142" height="855" extended-state="0" />
