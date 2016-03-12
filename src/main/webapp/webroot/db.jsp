@@ -24,7 +24,7 @@
         qry   = (String) getParam("q", request, q1);
         useCache = (String) getParam("c", request, null);
         if (useCache != null )  {
-            log("NOT USING CACHE");
+            log("NOT USING CACHE AND WILL NOT CACHE THIS RESULT");
         }
         String  qtemp = qry.toUpperCase();
         if (qtemp.contains("DELETE") ) {
@@ -46,7 +46,6 @@
             sbn = ResultToJson(qry);
             GetCache().put(qry, sbn);
         }
-
         if ( type.equalsIgnoreCase("html")) {
             out.println("<pre> " + " Executing: " + qnu + "\n"  + qry + "\n\n" + sbn);
         } else {
