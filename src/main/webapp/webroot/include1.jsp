@@ -1,8 +1,6 @@
 <%@ page import="org.apache.log4j.*" %>
-<%@ page import="org.apache.commons.lang.time.StopWatch" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="org.apache.commons.logging.Log" %>
-<%@ page import="org.apache.commons.logging.LogFactory" %>
 <%@ page import="javax.servlet.http.HttpServletRequest" %>
 <%@ page import="javax.servlet.http.HttpServletResponse" %>
 <%@ page import="java.util.Enumeration" %>
@@ -13,6 +11,10 @@
 <%@ page import="java.nio.file.Paths" %>
 <%@ page import="java.io.IOException" %>
 <%@ page import="geospaces.TextFile" %>
+<%@ page import="org.apache.commons.logging.Log" %>
+<%@ page import="org.apache.commons.logging.LogFactory" %>
+<%@ page import="org.apache.commons.lang.time.StopWatch" %>
+
 
 <%!
     boolean     debug        = false;
@@ -56,7 +58,6 @@
             try{
                 pageOut.print(o);
             } catch(Exception e) {
-                ;
             }
         }
     }

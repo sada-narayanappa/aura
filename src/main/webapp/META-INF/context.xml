@@ -1,2 +1,5 @@
-<Context path="/aura" allowLinking="true">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context path="/aura1" allowLinking="true">
+
 </Context>
