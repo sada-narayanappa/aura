@@ -1,5 +1,5 @@
-<%@ page import="org.apache.log4j.*" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="org.apache.log4j.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="javax.servlet.http.HttpServletRequest" %>
 <%@ page import="javax.servlet.http.HttpServletResponse" %>
