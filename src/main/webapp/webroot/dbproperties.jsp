@@ -108,8 +108,8 @@
     }
 
     public StringBuilder ResultMeta(ResultSet rs) throws Exception{
-        StringBuilder ret1 = new StringBuilder("colnames: [");
-        StringBuilder ret2 = new StringBuilder("coltypes: [");
+        StringBuilder ret1 = new StringBuilder("\"colnames\": [");
+        StringBuilder ret2 = new StringBuilder("\"coltypes\": [");
         ResultSetMetaData meta = rs.getMetaData();
         int columnCount = meta.getColumnCount();
 
@@ -129,7 +129,7 @@
         int columnCount = meta.getColumnCount();
         StringBuilder retM = ResultMeta(rs);
 
-        StringBuilder ret = new StringBuilder("var $rs=\n{rows:[\n");
+        StringBuilder ret = new StringBuilder("var $rs=\n{\"rows\":[\n");
         int row = 1;
         while (rs.next()) {
             ret.append("[");
