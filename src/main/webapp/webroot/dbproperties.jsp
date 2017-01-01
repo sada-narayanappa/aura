@@ -130,19 +130,22 @@
         StringBuilder retM = ResultMeta(rs);
 
         StringBuilder ret = new StringBuilder("var $rs=\n{\"rows\":[\n");
-        int row = 1;
+        int row = 0;
         while (rs.next()) {
-            ret.append("[");
+            ret.append( "[");
             Object d;
             for (int i = 1; i <= columnCount; i++) {
                 d = getObject(rs, meta, i);
                 ret.append(((i > 1) ? "," : "") + d);
             }
             ret.append("],\n");
+            row++;
         }
-        ret.append("],\n");
+        if (row> 0)
+            ret.setLength(ret.length() - 2);
+        ret.append("\n],\n");
         ret.append(retM);
-        ret.append("}");
+        ret.append("\n}");
         return ret;
     }
 

@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="757d3a0f-043c-4d33-9318-878e73c1b3b7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/aura.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/webroot/dbproperties.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/webroot/dbproperties.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SCHAS-idea/.idea/workspace.xml" afterPath="$PROJECT_DIR$/SCHAS-idea/.idea/workspace.xml" />
     </list>
     <ignored path="SCHAS-all.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,8 +48,8 @@
       <file leaf-file-name="dbproperties.jsp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/webroot/dbproperties.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.2440605">
-              <caret line="131" column="66" selection-start-line="131" selection-start-column="66" selection-end-line="131" selection-end-column="66" />
+            <state vertical-scroll-proportion="0.6803456">
+              <caret line="145" column="21" selection-start-line="145" selection-start-column="21" selection-end-line="145" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -520,12 +515,12 @@
       <workItem from="1457740088024" duration="224000" />
       <workItem from="1457740328483" duration="30000" />
       <workItem from="1457740881983" duration="29000" />
-      <workItem from="1461965963612" duration="148000" />
+      <workItem from="1461965963612" duration="1759000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="431000" />
+    <option name="totallyTimeSpent" value="2042000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="43" width="1376" height="837" extended-state="0" />
@@ -612,8 +607,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/webroot/dbproperties.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.2440605">
-          <caret line="131" column="66" selection-start-line="131" selection-start-column="66" selection-end-line="131" selection-end-column="66" />
+        <state vertical-scroll-proportion="0.6803456">
+          <caret line="145" column="21" selection-start-line="145" selection-start-column="21" selection-end-line="145" selection-end-column="21" />
           <folding />
         </state>
       </provider>
