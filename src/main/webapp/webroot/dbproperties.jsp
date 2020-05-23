@@ -30,7 +30,7 @@
             int idx = l.indexOf("\n");
             String id  = l.substring(0, idx );
             String sql = l.substring(idx + 1);
-            SQL_HASH.put(id, sql.trim());
+            SQL_HASH.put(id.trim(), sql.trim());
         }
         for (Object id: SQL_HASH.keySet()) {
             log(id + " : " + SQL_HASH.get(id));
