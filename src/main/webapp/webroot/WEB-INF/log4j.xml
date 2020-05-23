@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd"> 
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p [%c] %X{requestId} %X{ipAddress} - &lt;%m&gt;%n"/>
+        </layout>
+    </appender>
+
+   <appender name="CONSOLE_PLAIN"   class="org.apache.log4j.ConsoleAppender">
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%m%n"/>
+      </layout>
+   </appender>
+
+   <appender name="RECEIVE_JSON_APPENDER" class="org.apache.log4j.RollingFileAppender">
+      <param name="MaxFileSize" value="10kb"/>
+      <param name="MaxBackupIndex" value="5"/>
+      <param name="Append" value="true"/>
+      <param name="file" value="/opt/geospaces/logs/ENV.log"/>
+      <param name="append" value="true"/>
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%m%n"/>
+      </layout>
+
+   </appender>
+
+<!-- <logger name="RECEIVE_JSON" additivity="false">
+      <level value="INFO" />
+      <appender-ref ref="RECEIVE_JSON_APPENDER"/>
+   </logger>
+-->
+
+	<category name="org.apache" additivity="false">
+		<level value="INFO"/>
+		<appender-ref ref="CONSOLE"/>
+	</category>
+
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="CONSOLE_PLAIN"/>
+	</root>
+
+    <logger name="aura">
+        <appender-ref ref="CONSOLE"/>
+        <level value="info" />
+    </logger>
+
+</log4j:configuration>
